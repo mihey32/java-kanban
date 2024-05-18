@@ -8,9 +8,6 @@ public class Task {
 
     protected Status status; // статус задачи
 
-    public Task(Integer id, String title, String description) {
-
-    }
 
     public Task(String title, String description) { // для создания задачи
         this.title = title;
