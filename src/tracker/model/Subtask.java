@@ -20,7 +20,7 @@ public class Subtask extends Task {
         return "Подзадача {" +
                 "Название ='" + title + '\'' +
                 ", Описание подзадачи ='" + description + '\'' +
-                ", tracker.model.Task ID = " + id +
+                ", Subtask ID = " + id +
                 ", Статус задачи = " + status +
                 '}';
     }

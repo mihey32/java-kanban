@@ -40,7 +40,7 @@ public class Task {
         return "Задача {" +
                 "Название ='" + title + '\'' +
                 ", Описание задачи ='" + description + '\'' +
-                ", tracker.model.Task ID = " + id +
+                ", Task ID = " + id +
                 ", Статус задачи = " + status +
                 '}';
     }
