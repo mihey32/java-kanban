@@ -1,5 +1,7 @@
 package tracker.model;
 
+import java.util.Objects;
+
 public class Task {
     protected  String title; // заголовок задачи
     protected  String description; //описание задачи
@@ -8,6 +10,9 @@ public class Task {
 
     protected Status status; // статус задачи
 
+    public Task(Integer id, String title, String description) {
+
+    }
 
     public Task(String title, String description) { // для создания задачи
         this.title = title;
@@ -40,12 +45,29 @@ public class Task {
         return "Задача {" +
                 "Название ='" + title + '\'' +
                 ", Описание задачи ='" + description + '\'' +
-                ", Task ID = " + id +
+                ", tracker.model.Task ID = " + id +
                 ", Статус задачи = " + status +
                 '}';
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Task task = (Task) object;
+        return Objects.equals(title, task.title) && Objects.equals(description, task.description) && Objects.equals(id, task.id) && status == task.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, description, id, status);
     }
 }
