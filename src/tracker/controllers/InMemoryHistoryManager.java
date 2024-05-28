@@ -12,14 +12,15 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(Task task) {
+        while (tasksHistory.size() > HISTORY_COUNT) {
+            tasksHistory.removeFirst();
+        }
         tasksHistory.add(task);
     }
 
     @Override
     public ArrayList<Task> getHistory() {
-        while (tasksHistory.size() > HISTORY_COUNT) {
-            tasksHistory.removeFirst();
-        }
+
         return tasksHistory;
     }
 }

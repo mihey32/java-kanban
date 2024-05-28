@@ -1,16 +1,17 @@
 package tracker;
 
-import tracker.controllers.Managers;
 import tracker.controllers.TaskManager;
+import tracker.model.Epic;
 import tracker.model.Status;
 import tracker.model.Subtask;
-import tracker.model.Epic;
 import tracker.model.Task;
+
+import static tracker.controllers.Managers.getDefault;
 
 public class Main {
     public static void main(String[] args) {
 
-        TaskManager manager = new Managers().inMemoryTaskManager();
+        TaskManager manager = getDefault();
 
         //Иницилизируем и создаем задачи:
         Task task1 = new Task("Задача 1", "Описание1");

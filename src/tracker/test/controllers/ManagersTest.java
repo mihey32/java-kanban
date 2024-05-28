@@ -1,29 +1,24 @@
-package tracker.test.controllers;
+package controllers;
 
 import org.junit.jupiter.api.Test;
 import tracker.controllers.HistoryManager;
-import tracker.controllers.Managers;
 import tracker.controllers.TaskManager;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static tracker.controllers.Managers.getDefault;
+import static tracker.controllers.Managers.getDefaultHistory;
+
 
 class ManagersTest {
 
     @Test
-    void testGetInitializedManagers() {
-        TaskManager taskManager = new Managers().inMemoryTaskManager();
-        assertNotNull(taskManager);
-    }
-
-    @Test
     void testGetInitializedManagersDefault() {
-        TaskManager taskManager = new Managers().getDefault();
+        TaskManager taskManager = getDefault();
         assertNotNull(taskManager);
     }
 
     @Test
     void testGetInitializedHistoryManager() {
-        HistoryManager historyManager = new Managers().getDefaultHistory();
+        HistoryManager historyManager = getDefaultHistory();
         assertNotNull(historyManager);
 
     }

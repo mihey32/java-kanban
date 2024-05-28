@@ -1,18 +1,19 @@
-package tracker.test.controllers;
+package controllers;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import tracker.controllers.Managers;
 import tracker.controllers.TaskManager;
 import tracker.model.Epic;
 import tracker.model.Status;
 import tracker.model.Subtask;
 import tracker.model.Task;
 
+import static tracker.controllers.Managers.getDefault;
+
 class InMemoryTaskManagerTest {
 
-    TaskManager manager = new Managers().inMemoryTaskManager();
+    TaskManager manager = getDefault();
 
     @BeforeEach
     void beForEach() {
@@ -136,7 +137,7 @@ class InMemoryTaskManagerTest {
         Task testTask = new Task(chekTask.getId(),"Тестовая Задача 1", "Тестовое описание 1", Status.IN_PROGRESS);
         manager.updateTask(testTask);
         manager.getTaskById(chekTask.getId());
-        Assertions.assertEquals(chekTask, manager.getHistory().get(0));
+        Assertions.assertEquals(chekTask, manager.getHistory().getFirst());
 
     }
 
