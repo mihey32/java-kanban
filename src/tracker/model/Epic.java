@@ -30,7 +30,7 @@ public class Epic extends Task {
         return "Эпик {" +
                 "Название ='" + title + '\'' +
                 ", Описание эпика ='" + description + '\'' +
-                ", tracker.model.Epic ID  = " + id +
+                ", Epic ID  = " + id +
                 ", Количество подзадач: " + idSubTasks.size() +
                 ", Статус задачи = " + status +
                 '}';

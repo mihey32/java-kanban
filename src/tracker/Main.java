@@ -10,21 +10,29 @@ import tracker.model.Task;
 public class Main {
     public static void main(String[] args) {
 
-        TaskManager managers = new Managers().inMemoryTaskManager();
+        TaskManager manager = new Managers().inMemoryTaskManager();
 
         //Иницилизируем и создаем задачи:
         Task task1 = new Task("Задача 1", "Описание1");
         Task task2 = new Task("Задача 1", "Описание1");
-        managers.createTask(task1);
-        managers.createTask(task2);
+        manager.createTask(task1);
+        manager.createTask(task2);
         Task task3 = new Task(task1.getId(),"Обновленная Задача 1", " Обновленное Описание1", Status.IN_PROGRESS);
         Task task4 = new Task(task2.getId(),"Обновленная Задача 2", " Обновленное Описание2", Status.IN_PROGRESS);
-        managers.getTaskById(task1.getId());
-        managers.getTaskById(task2.getId());
-        managers.updateTask(task3);
-        managers.updateTask(task4);
-        managers.getTaskById(task1.getId());
-        managers.getTaskById(task2.getId());
+        manager.getTaskById(task1.getId());
+        manager.getTaskById(task2.getId());
+        manager.updateTask(task3);
+        manager.updateTask(task4);
+        manager.getTaskById(task1.getId());
+        manager.getTaskById(task2.getId());
+
+        System.out.println("История задач:");
+        for (Task task: manager.getHistory()) {
+            System.out.println(task);
+        }
+
+        System.out.println();
+
 
         // Иницилизируем и создаем Эпики
         Epic epic1 = new Epic("Эпик 1", "Описание1");
@@ -39,44 +47,44 @@ public class Main {
         Epic epic10 = new Epic("Эпик 10", "Описание10");
         Epic epic11 = new Epic("Эпик 11", "Описание11");
 
-        managers.createEpic(epic1);
-        managers.createEpic(epic2);
-        managers.createEpic(epic3);
-        managers.createEpic(epic4);
-        managers.createEpic(epic5);
-        managers.createEpic(epic6);
-        managers.createEpic(epic7);
-        managers.createEpic(epic8);
-        managers.createEpic(epic9);
-        managers.createEpic(epic10);
-        managers.createEpic(epic11);
+        manager.createEpic(epic1);
+        manager.createEpic(epic2);
+        manager.createEpic(epic3);
+        manager.createEpic(epic4);
+        manager.createEpic(epic5);
+        manager.createEpic(epic6);
+        manager.createEpic(epic7);
+        manager.createEpic(epic8);
+        manager.createEpic(epic9);
+        manager.createEpic(epic10);
+        manager.createEpic(epic11);
 
         //Иницилизируем и создаем Подзадачи
         Subtask subtask1 = new Subtask("Подзадача 1", "Описание1", epic1.getId());
         Subtask subtask2 = new Subtask("Подзадача 2", "Описание2", epic1.getId());
         Subtask subtask3 = new Subtask("Подзадача 3", "Описание3", epic2.getId());
 
-        managers.createSubTask(subtask1);
-        managers.createSubTask(subtask2);
-        managers.createSubTask(subtask3);
+        manager.createSubTask(subtask1);
+        manager.createSubTask(subtask2);
+        manager.createSubTask(subtask3);
 
-        managers.getEpicById(4);
-        managers.getEpicById(5);
-        managers.getEpicById(6);
-        managers.getEpicById(7);
-        managers.getEpicById(8);
-        managers.getEpicById(9);
-        managers.getEpicById(10);
-        managers.getEpicById(11);
-        managers.getEpicById(12);
-        managers.getEpicById(13);
-        managers.getEpicById(4);
-        managers.getEpicById(5);
-        managers.getEpicById(6);
-        managers.getEpicById(7);
-        managers.getEpicById(8);
+        manager.getEpicById(4);
+        manager.getEpicById(5);
+        manager.getEpicById(6);
+        manager.getEpicById(7);
+        manager.getEpicById(8);
+        manager.getEpicById(9);
+        manager.getEpicById(10);
+        manager.getEpicById(11);
+        manager.getEpicById(12);
+        manager.getEpicById(13);
+        manager.getEpicById(4);
+        manager.getEpicById(5);
+        manager.getEpicById(6);
+        manager.getEpicById(7);
+        manager.getEpicById(8);
 
-        printAllTasks(managers);
+        printAllTasks(manager);
 
     }
 
