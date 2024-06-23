@@ -7,10 +7,10 @@ import tracker.model.Epic;
 class EpicTest {
 
     @Test
-    void testEqualsEpic(){
+    void testEqualsEpic() {
 
         Epic epic1 = new Epic("Test1 title", "Test1 description");
-        Epic epic2= new Epic("Test1 title", "Test1 description");
+        Epic epic2 = new Epic("Test1 title", "Test1 description");
 
         Assertions.assertEquals(epic1, epic2);
 
