@@ -8,10 +8,6 @@ import tracker.model.Subtask;
 import tracker.model.Task;
 
 import java.io.File;
-import java.io.IOException;
-
-import static tracker.controllers.Managers.getDefault;
-
 public class Main {
     public static void main(String[] args) {
 
