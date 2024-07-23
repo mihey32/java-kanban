@@ -11,6 +11,10 @@ public class Epic extends Task {
         super(title, description);
     }
 
+    public Epic(Integer id, String title, String description, Status status) {
+        super(id, title, description, status);
+    }
+
 
     public ArrayList<Integer> getIdSubtasks() {
         return idSubTasks;
@@ -48,5 +52,10 @@ public class Epic extends Task {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), idSubTasks);
+    }
+
+    @Override
+    public TaskType getTaskType() {
+        return TaskType.EPIC;
     }
 }

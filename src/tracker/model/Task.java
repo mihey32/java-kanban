@@ -3,12 +3,13 @@ package tracker.model;
 import java.util.Objects;
 
 public class Task {
+
     protected  String title; // заголовок задачи
     protected  String description; //описание задачи
 
     protected  Integer id; // идентификатор задачи
 
-    protected Status status; // статус задачи
+    protected Status status = Status.NEW; // статус задачи
 
     public Task(Integer id, String title, String description) {
 
@@ -69,5 +70,13 @@ public class Task {
     @Override
     public int hashCode() {
         return Objects.hash(title, description, id, status);
+    }
+
+    public TaskType getTaskType() {
+        return TaskType.TASK;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
