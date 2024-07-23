@@ -44,7 +44,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteAllSubtasks() { //удалить все подзадачи
-
         for (Epic epic : epics.values()) {
             epic.cleanSubtaskIds();
             updateEpicStatus(epic.getId());
@@ -61,6 +60,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteTaskById(Integer requiredId) {  // удалить задачу по requiredId
         tasks.remove(requiredId);
+        historyManager.remove(requiredId);
     }
 
     @Override
@@ -75,6 +75,7 @@ public class InMemoryTaskManager implements TaskManager {
             }
             epics.remove(requiredId);
         }
+        historyManager.remove(requiredId);
     }
 
     @Override
@@ -88,6 +89,7 @@ public class InMemoryTaskManager implements TaskManager {
 
         subtasks.remove(requiredId);
         updateEpicStatus(idEpic);
+        historyManager.remove(requiredId);
     }
 
     @Override
@@ -124,7 +126,6 @@ public class InMemoryTaskManager implements TaskManager {
     public void createEpic(Epic newEpic) { //создать epic
         newEpic.setId(id++);
         epics.put(newEpic.getId(), newEpic);
-
     }
 
     @Override
@@ -137,7 +138,6 @@ public class InMemoryTaskManager implements TaskManager {
         idSubtask.add(newSubtask.getId());
         epic.setIdSubtasks(idSubtask);
     }
-
 
     @Override
     public void updateEpicStatus(Integer epicId) {  //метод для обновления статуса эпика
@@ -167,13 +167,11 @@ public class InMemoryTaskManager implements TaskManager {
                 epic.setStatus(Status.IN_PROGRESS);
             }
         }
-
     }
 
     @Override
     public void updateSubTask(Subtask newSubtask) { //обновить подзадачу
         subtasks.put(newSubtask.getId(), newSubtask);
-
         Subtask subtask = subtasks.get(newSubtask.getId());
         Integer idEpic = subtask.getIdEpic();
         updateEpicStatus(idEpic);
@@ -187,7 +185,6 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateEpic(Epic newTask) { // обновить Эпик
         epics.put(newTask.getId(), newTask);
-
     }
 
     @Override
@@ -198,7 +195,6 @@ public class InMemoryTaskManager implements TaskManager {
             subtasksOfEpic.add(subtask);
         }
         return subtasksOfEpic;
-
     }
 
     @Override

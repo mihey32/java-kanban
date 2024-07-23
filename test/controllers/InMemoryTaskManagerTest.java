@@ -130,15 +130,54 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void checkHistoryManagerSavesTaskVersions(){
+    void checkHistoryManagerNoSavesTaskVersions() {
         Task chekTask = new Task("Тестовая Задача 1", "Тестовое описание 1");
         manager.createTask(chekTask);
         manager.getTaskById(chekTask.getId());
-        Task testTask = new Task(chekTask.getId(),"Тестовая Задача 1", "Тестовое описание 1", Status.IN_PROGRESS);
+        Task testTask = new Task(chekTask.getId(), "Тестовая Задача 1", "Тестовое описание 1", Status.IN_PROGRESS);
         manager.updateTask(testTask);
         manager.getTaskById(chekTask.getId());
-        Assertions.assertEquals(chekTask, manager.getHistory().getFirst());
+        Assertions.assertEquals(testTask, manager.getHistory().getFirst());
 
     }
 
+    @Test
+    void checkAddFunctionalityInLinkedList() {
+        Task checkTask = new Task("Контрольная Задача ", "Описание");
+        Epic checkEpic = new Epic("Контрольный Эпик ", "Описание");
+        manager.createTask(checkTask);
+        manager.createEpic(checkEpic);
+        manager.getEpicById(checkEpic.getId());
+        manager.getTaskById(checkTask.getId());
+
+        Assertions.assertEquals(checkTask, manager.getHistory().getLast());
+    }
+
+    @Test
+    void testRemoveDuplicateTasksFromHistoryList() {
+        Task checkTask = new Task("Контрольная Задача ", "Описание");
+        Epic checkEpic = new Epic("Контрольный Эпик ", "Описание");
+        manager.createTask(checkTask);
+        manager.createEpic(checkEpic);
+        manager.getEpicById(checkEpic.getId());
+        manager.getTaskById(checkTask.getId());
+        manager.getEpicById(checkEpic.getId());
+
+        Assertions.assertNotEquals(checkEpic, manager.getHistory().getFirst());
+        Assertions.assertEquals(2, manager.getHistory().size());
+    }
+
+    @Test
+    void testRemoveTaskFromHistoryList() {
+        Task checkTask = new Task("Контрольная Задача ", "Описание");
+        Epic checkEpic = new Epic("Контрольный Эпик ", "Описание");
+        manager.createTask(checkTask);
+        manager.createEpic(checkEpic);
+        manager.getEpicById(checkEpic.getId());
+        manager.getTaskById(checkTask.getId());
+        manager.deleteEpicById(checkEpic.getId());
+
+        Assertions.assertEquals(1, manager.getHistory().size());
+
+    }
 }
