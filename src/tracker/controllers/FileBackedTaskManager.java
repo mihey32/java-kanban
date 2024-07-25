@@ -5,7 +5,6 @@ import tracker.model.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
@@ -105,21 +104,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public ArrayList<Epic> getEpics() {
-        return super.getEpics();
-    }
-
-    @Override
-    public ArrayList<Task> getTasks() {
-        return super.getTasks();
-    }
-
-    @Override
-    public ArrayList<Subtask> getSubtasks() {
-        return super.getSubtasks();
-    }
-
-    @Override
     public void deleteAllTasks() {
         super.deleteAllTasks();
         save();
@@ -153,21 +137,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public void deleteSubtaskById(Integer requiredId) {
         super.deleteSubtaskById(requiredId);
         save();
-    }
-
-    @Override
-    public Task getTaskById(Integer id) {
-        return super.getTaskById(id);
-    }
-
-    @Override
-    public Epic getEpicById(Integer id) {
-        return super.getEpicById(id);
-    }
-
-    @Override
-    public Subtask getSubtaskById(Integer id) {
-        return super.getSubtaskById(id);
     }
 
     @Override
@@ -210,15 +179,5 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public void updateEpic(Epic newTask) {
         super.updateEpic(newTask);
         save();
-    }
-
-    @Override
-    public ArrayList<Subtask> getSubtasksOfEpic(Epic epic) {
-        return super.getSubtasksOfEpic(epic);
-    }
-
-    @Override
-    public ArrayList<Task> getHistory() {
-        return super.getHistory();
     }
 }
