@@ -119,21 +119,18 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void createTask(Task newTask) { //создать задачу
         newTask.setId(id++);
-        newTask.setStatus(Status.NEW);
         tasks.put(newTask.getId(), newTask);
     }
 
     @Override
     public void createEpic(Epic newEpic) { //создать epic
         newEpic.setId(id++);
-        newEpic.setStatus(Status.NEW);
         epics.put(newEpic.getId(), newEpic);
     }
 
     @Override
     public void createSubTask(Subtask newSubtask) { //создать подзадачу
         newSubtask.setId(id++);
-        newSubtask.setStatus(Status.NEW);
         subtasks.put(newSubtask.getId(), newSubtask);
 
         Epic epic = epics.get(newSubtask.getIdEpic());

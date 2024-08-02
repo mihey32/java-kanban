@@ -3,6 +3,7 @@ package model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import tracker.model.Epic;
+import tracker.model.TaskType;
 
 class EpicTest {
 
@@ -15,4 +16,11 @@ class EpicTest {
         Assertions.assertEquals(epic1, epic2);
 
     }
+
+    @Test
+    void testEpicTaskType() {
+        Epic epicTest = new Epic("Test1 title", "Test1 description");
+        Assertions.assertEquals(TaskType.EPIC, epicTest.getTaskType());
+    }
+
 }

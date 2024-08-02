@@ -3,6 +3,7 @@ package model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import tracker.model.Task;
+import tracker.model.TaskType;
 
 class TaskTest {
 
@@ -13,8 +14,9 @@ class TaskTest {
         Assertions.assertEquals(task1, task2);
 
     }
-
-
-
-
+    @Test
+    void testEpicTaskType() {
+        Task taskTest = new Task("Test1 title", "Test1 description");
+        Assertions.assertEquals(TaskType.TASK, taskTest.getTaskType());
+    }
 }

@@ -44,4 +44,9 @@ public class Subtask extends Task {
     public int hashCode() {
         return Objects.hash(super.hashCode(), idEpic);
     }
+
+    @Override
+    public TaskType getTaskType() {
+        return TaskType.SUBTASK;
+    }
 }
