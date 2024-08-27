@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tracker.controllers.TaskManager;
 import tracker.model.Epic;
-import tracker.model.Status;
+import tracker.enums.Status;
 import tracker.model.Subtask;
 import tracker.model.Task;
 

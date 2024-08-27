@@ -5,6 +5,8 @@ import tracker.model.Subtask;
 import tracker.model.Task;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public interface TaskManager {
     ArrayList<Epic> getEpics();
@@ -48,4 +50,6 @@ public interface TaskManager {
     ArrayList<Subtask> getSubtasksOfEpic(Epic epic);
 
     ArrayList<Task> getHistory();
+
+    List<Task> getPrioritizedTasks();
 }

@@ -1,5 +1,7 @@
 package tracker.controllers;
 
+import tracker.enums.Status;
+import tracker.enums.TaskType;
 import tracker.exception.ManagerSaveException;
 import tracker.model.*;
 

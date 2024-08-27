@@ -3,7 +3,7 @@ package model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import tracker.model.Subtask;
-import tracker.model.TaskType;
+import tracker.enums.TaskType;
 
 class SubtaskTest {
     @Test
