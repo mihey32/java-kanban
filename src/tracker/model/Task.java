@@ -20,7 +20,7 @@ public class Task {
     protected LocalDateTime startTime;  //время начала задачи
     protected Duration duration = Duration.ZERO;  //продолжительность задачи
 
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm");
+    protected static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm");
 
 
     public Task(String title, String description) { // для создания задачи
@@ -34,7 +34,9 @@ public class Task {
         this.description = description;
         this.status = status;
     }
-    public Task(Integer id, String title, String description, Status status, LocalDateTime startTime, Duration duration ) { //  для обновления
+
+    public Task(Integer id, String title, String description, Status status, LocalDateTime startTime,
+                Duration duration) { //  для обновления
         this.id = id;
         this.title = title;
         this.description = description;
@@ -129,6 +131,22 @@ public class Task {
             return startTime;
         } else {
             return null;
+        }
+    }
+
+    public String getStartTimeString() {
+        if (startTime != null) {
+            return startTime.format(FORMATTER);
+        } else {
+            return "null";
+        }
+    }
+
+    public String getEndTimeString() {
+        if (startTime != null) {
+            return startTime.plus(duration).format(FORMATTER);
+        } else {
+            return "null";
         }
     }
 

@@ -3,6 +3,7 @@ package tracker.model;
 import tracker.enums.Status;
 import tracker.enums.TaskType;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -17,8 +18,14 @@ public class Epic extends Task {
 
     public Epic(Integer id, String title, String description, Status status) {
         super(id, title, description, status);
-
     }
+
+    public Epic(Integer id, String title, String description, Status status, LocalDateTime startTime,
+                Duration duration, LocalDateTime endTime) {
+        super(id, title, description, status, startTime, duration);
+        this.endTime = endTime;
+    }
+
 
     public ArrayList<Integer> getIdSubtasks() {
         return idSubTasks;
@@ -43,7 +50,7 @@ public class Epic extends Task {
                 ", Статус эпика = " + status +
                 ", Cтарт эпика = " + startTime +
                 ", Продолжительность эпика = " + duration.toHours() + " ч. " + duration.toMinutesPart() + " мин. " +
-                ", Окончание эпика = " +  endTime +
+                ", Окончание эпика = " + endTime +
                 '}';
     }
 
@@ -68,5 +75,13 @@ public class Epic extends Task {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public String getEndTimeEpicString() {
+        if(endTime != null) {
+            return endTime.format(FORMATTER);
+        } else  {
+            return "null";
+        }
     }
 }
