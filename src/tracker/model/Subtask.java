@@ -10,7 +10,6 @@ import java.util.Objects;
 public class Subtask extends Task {
     private Integer idEpic;
 
-
     public Subtask(String title, String description, Integer idEpic) {
         super(title, description);
         this.idEpic = idEpic;
@@ -26,7 +25,8 @@ public class Subtask extends Task {
         this.idEpic = idEpic;
     }
 
-    public Subtask(Integer id, String title, String description, Status status, LocalDateTime startTime, Duration duration, Integer idEpic) {
+    public Subtask(Integer id, String title, String description, Status status, LocalDateTime startTime,
+                   Duration duration, Integer idEpic) {
         super(id, title, description, status, startTime, duration);
         this.idEpic = idEpic;
     }
@@ -35,7 +35,6 @@ public class Subtask extends Task {
         super(title, description, startTime, duration);
         this.idEpic = idEpic;
     }
-
 
     @Override
     public String toString() {
