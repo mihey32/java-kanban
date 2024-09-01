@@ -37,7 +37,6 @@ public class Epic extends Task {
 
     public void cleanSubtaskIds() {
         idSubTasks.clear();
-
     }
 
     @Override
@@ -78,9 +77,9 @@ public class Epic extends Task {
     }
 
     public String getEndTimeEpicString() {
-        if(endTime != null) {
+        if (endTime != null) {
             return endTime.format(FORMATTER);
-        } else  {
+        } else {
             return "null";
         }
     }
