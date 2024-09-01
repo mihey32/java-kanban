@@ -105,11 +105,15 @@ public class Main {
         printPrioritizedTasks(manager);*/
 
 
-
         // TaskManager manager = getDefault();
         File file = new File("resources/backup.csv");
 
         FileBackedTaskManager manager = new FileBackedTaskManager(file);
+
+        LocalDateTime time3 = LocalDateTime.of(2021, Month.JANUARY, 8, 1, 0, 0);
+        LocalDateTime time4 = LocalDateTime.of(2022, Month.JANUARY, 1, 0, 0, 0);
+        Duration duration4 = Duration.ofHours(1);
+        Duration duration3 = Duration.ofHours(2);
 
         //Иницилизируем и создаем задачи:
         Task task1 = new Task("Задача 1", "Описание1");
@@ -120,12 +124,13 @@ public class Main {
         Task task3 = new Task(task1.getId(),
                 "Обновленная Задача 1",
                 " Обновленное Описание1",
-                Status.IN_PROGRESS);
+                Status.IN_PROGRESS, time3, duration3);
         Task task4 = new Task(task2.getId(),
                 "Обновленная Задача 2",
                 " Обновленное Описание2",
-                Status.IN_PROGRESS);
+                Status.IN_PROGRESS, time4, duration4);
         manager.updateTask(task3);
+
         manager.updateTask(task4);
 
         Epic epic1 = new Epic("Эпик 1", "Описание1");
@@ -140,7 +145,7 @@ public class Main {
         Duration duration2 = Duration.ofHours(2);
 
         Subtask subtask1 = new Subtask("Подзадача 1", "Описание1", epic1.getId(), time1, duration1);
-        Subtask subtask2 = new Subtask("Подзадача 2", "Описание2", epic1.getId(), time2,duration2);
+        Subtask subtask2 = new Subtask("Подзадача 2", "Описание2", epic1.getId(), time2, duration2);
         Subtask subtask3 = new Subtask("Подзадача 3", "Описание3", epic2.getId());
         manager.createSubTask(subtask1);
         manager.createSubTask(subtask2);
@@ -150,7 +155,7 @@ public class Main {
                 "Обновленная подзадача3",
                 "Обвновленное описание3",
                 Status.DONE,
-               subtask3.getIdEpic());
+                subtask3.getIdEpic());
         manager.updateSubTask(subtask4);
 
         printAllTasks(manager);
@@ -160,6 +165,8 @@ public class Main {
         FileBackedTaskManager fileBackedTaskManager = FileBackedTaskManager.loadFromFile(file);
         printAllTasks(fileBackedTaskManager);
 
+        System.out.println("*************");
+        printPrioritizedTasks(manager);
 
 
     }

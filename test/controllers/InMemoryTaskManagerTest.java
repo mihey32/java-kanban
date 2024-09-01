@@ -13,25 +13,33 @@ import static tracker.controllers.Managers.getDefault;
 
 class InMemoryTaskManagerTest {
 
+    private Task task1;
+    private Task task2;
+    private Epic epic1;
+    private Epic epic2;
+
+    private Subtask subtask1;
+    private Subtask subtask2;
+
     TaskManager manager = getDefault();
 
     @BeforeEach
     void beForEach() {
 
-        Task task1 = new Task("Задача 1", "Описание1");
-        Task task2 = new Task("Задача 1", "Описание1");
+        task1 = new Task("Задача 1", "Описание1");
+        task2 = new Task("Задача 1", "Описание1");
 
         manager.createTask(task1);
         manager.createTask(task2);
 
-        Epic epic1 = new Epic("Эпик 1", "Описание1");
-        Epic epic2 = new Epic("Эпик 2", "Описание2");
+        epic1 = new Epic("Эпик 1", "Описание1");
+        epic2 = new Epic("Эпик 2", "Описание2");
 
         manager.createEpic(epic1);
         manager.createEpic(epic2);
 
-        Subtask subtask1 = new Subtask("Подзадача 1", "Описание1", epic1.getId());
-        Subtask subtask2 = new Subtask("Подзадача 2", "Описание2", epic1.getId());
+        subtask1 = new Subtask("Подзадача 1", "Описание1", epic1.getId());
+        subtask2 = new Subtask("Подзадача 2", "Описание2", epic1.getId());
 
         manager.createSubTask(subtask1);
         manager.createSubTask(subtask2);
@@ -178,6 +186,27 @@ class InMemoryTaskManagerTest {
         manager.deleteEpicById(checkEpic.getId());
 
         Assertions.assertEquals(1, manager.getHistory().size());
+
+    }
+
+    @Test
+    void testCheckEpicStatus() {
+        Epic epicTest = manager.getEpicById(epic1.getId());
+        Assertions.assertEquals(Status.NEW, epicTest.getStatus());
+
+        Subtask updateTask1 = new Subtask(subtask1.getId(), "updateTitle1", "updateDescription1",
+                Status.DONE, subtask1.getIdEpic());
+        manager.updateSubTask(updateTask1);
+
+        Assertions.assertEquals(Status.IN_PROGRESS, epicTest.getStatus());
+
+        Subtask updateTask2 = new Subtask(subtask2.getId(), "updateTitle2", "updateDescription2",
+                Status.DONE, subtask2.getIdEpic());
+        manager.updateSubTask(updateTask2);
+
+        Assertions.assertEquals(Status.DONE, epicTest.getStatus());
+
+
 
     }
 }
