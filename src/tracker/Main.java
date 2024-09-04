@@ -67,6 +67,13 @@ public class Main {
                 subtask3.getIdEpic());
         manager.updateSubTask(subtask4);
 
+        Subtask subtask5 = new Subtask(subtask2.getId(),
+                "Обновленная подзадача2",
+                "Описание2",
+                Status.IN_PROGRESS, time2, duration2, epic1.getId());
+        manager.updateSubTask(subtask5);
+     manager.deleteSubtaskById(subtask1.getId());
+
         printAllTasks(manager);
 
         System.out.println("----------------------");
