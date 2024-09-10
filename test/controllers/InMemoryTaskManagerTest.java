@@ -5,33 +5,55 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tracker.controllers.TaskManager;
 import tracker.model.Epic;
-import tracker.model.Status;
+import tracker.enums.Status;
 import tracker.model.Subtask;
 import tracker.model.Task;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.List;
 
 import static tracker.controllers.Managers.getDefault;
 
 class InMemoryTaskManagerTest {
+
+    private Task task1;
+    private Task task2;
+    private Epic epic1;
+    private Epic epic2;
+
+    private Subtask subtask1;
+    private Subtask subtask2;
 
     TaskManager manager = getDefault();
 
     @BeforeEach
     void beForEach() {
 
-        Task task1 = new Task("Задача 1", "Описание1");
-        Task task2 = new Task("Задача 1", "Описание1");
+        LocalDateTime time1 = LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0, 0);
+        LocalDateTime time2 = LocalDateTime.of(2020, Month.JANUARY, 2, 0, 0, 0);
+        Duration duration1 = Duration.ofHours(1);
+        Duration duration2 = Duration.ofHours(2);
+
+        task1 = new Task("Задача 1", "Описание1", time1, duration1);
+        task2 = new Task("Задача 1", "Описание1", time2, duration2);
 
         manager.createTask(task1);
         manager.createTask(task2);
 
-        Epic epic1 = new Epic("Эпик 1", "Описание1");
-        Epic epic2 = new Epic("Эпик 2", "Описание2");
+        epic1 = new Epic("Эпик 1", "Описание1");
 
         manager.createEpic(epic1);
-        manager.createEpic(epic2);
 
-        Subtask subtask1 = new Subtask("Подзадача 1", "Описание1", epic1.getId());
-        Subtask subtask2 = new Subtask("Подзадача 2", "Описание2", epic1.getId());
+
+        LocalDateTime time3 = LocalDateTime.of(2020, Month.JANUARY, 3, 0, 0, 0);
+        LocalDateTime time4 = LocalDateTime.of(2020, Month.JANUARY, 4, 0, 0, 0);
+        Duration duration3 = Duration.ofHours(2);
+        Duration duration4 = Duration.ofHours(1);
+
+        subtask1 = new Subtask("Подзадача 1", "Описание1", epic1.getId(), time3, duration3);
+        subtask2 = new Subtask("Подзадача 2", "Описание2", epic1.getId());
 
         manager.createSubTask(subtask1);
         manager.createSubTask(subtask2);
@@ -180,4 +202,47 @@ class InMemoryTaskManagerTest {
         Assertions.assertEquals(1, manager.getHistory().size());
 
     }
+
+    @Test
+    void testCheckEpicStatus() {
+        Epic epicTest = manager.getEpicById(epic1.getId());
+        Assertions.assertEquals(Status.NEW, epicTest.getStatus());
+
+        Subtask updateTask1 = new Subtask(subtask1.getId(), "updateTitle1", "updateDescription1",
+                Status.DONE, subtask1.getIdEpic());
+        manager.updateSubTask(updateTask1);
+
+        Assertions.assertEquals(Status.IN_PROGRESS, epicTest.getStatus());
+
+        Subtask updateTask2 = new Subtask(subtask2.getId(), "updateTitle2", "updateDescription2",
+                Status.DONE, subtask2.getIdEpic());
+        manager.updateSubTask(updateTask2);
+
+        Assertions.assertEquals(Status.DONE, epicTest.getStatus());
+
+    }
+
+    @Test
+    void testGetPrioritizedTasks() {
+        List<Task> prioritizedTasks = manager.getPrioritizedTasks();
+        Assertions.assertEquals(1, prioritizedTasks.get(0).getId(), "Задача c ID 1 не приоритезирована");
+        Assertions.assertEquals(4, prioritizedTasks.get(2).getId(), "Подзадача c ID 4 не приоритезирована");
+        Assertions.assertNull(prioritizedTasks.get(3).getStartTime(), "Подзадача c ID 5 не приоритезирована");
+    }
+    @Test
+    void testRemoveTaskFromPrioritizedTasks() {
+        int testListSize1 = 4;
+        int testListSize2 = 3;
+        int testListSize3 = 0;
+        Assertions.assertEquals(testListSize1, manager.getPrioritizedTasks().size(), "Неверный размер приоритезированного списка");
+
+        manager.deleteTaskById(1);
+        Assertions.assertEquals(testListSize2, manager.getPrioritizedTasks().size(), "Неверный размер приоритезированного списка");
+
+        manager.deleteAllTasks();
+        manager.deleteAllSubtasks();
+        Assertions.assertEquals(testListSize3, manager.getPrioritizedTasks().size(), "Неверный размер приоритезированного списка");
+
+    }
+
 }
