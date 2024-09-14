@@ -2,8 +2,6 @@ package tracker.model;
 
 import tracker.enums.Status;
 import tracker.enums.TaskType;
-
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
