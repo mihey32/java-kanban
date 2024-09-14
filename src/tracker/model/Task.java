@@ -18,7 +18,7 @@ public class Task {
     protected Status status = Status.NEW; // статус задачи
 
     protected LocalDateTime startTime;  //время начала задачи
-    protected Duration duration = Duration.ZERO;  //продолжительность задачи
+    protected long duration;  //продолжительность задачи
 
     protected static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm");
 
@@ -36,7 +36,7 @@ public class Task {
     }
 
     public Task(Integer id, String title, String description, Status status, LocalDateTime startTime,
-                Duration duration) { //  для обновления
+                long duration) { //  для обновления
         this.id = id;
         this.title = title;
         this.description = description;
@@ -45,7 +45,7 @@ public class Task {
         this.duration = duration;
     }
 
-    public Task(String title, String description, LocalDateTime startTime, Duration duration) {
+    public Task(String title, String description, LocalDateTime startTime, long duration) {
         this.title = title;
         this.description = description;
         this.startTime = startTime;
@@ -73,7 +73,7 @@ public class Task {
                 ", Task ID = " + id +
                 ", Статус задачи = " + status +
                 ", Старт задачи = " + startTime +
-                ", Продолжительность задачи = " + duration.toHours() + " ч. " + duration.toMinutesPart() + " мин. " +
+                ", Продолжительность задачи = " + duration + " мин. " +
                 '}';
     }
 
@@ -108,22 +108,22 @@ public class Task {
 
     public LocalDateTime getEndTime() {
         if (startTime != null) {
-            return startTime.plus(duration);
+            return startTime.plusMinutes(duration);
         } else {
             return null;
         }
     }
 
-    public void setDuration(int duration) {
-        this.duration = Duration.ofMinutes(duration);
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public int getDuration() {
-        return (int) duration.toMinutes();
+    public long getDuration() {
+        return duration;
     }
 
     public LocalDateTime getStartTime() {
@@ -144,7 +144,7 @@ public class Task {
 
     public String getEndTimeString() {
         if (startTime != null) {
-            return startTime.plus(duration).format(FORMATTER);
+            return startTime.plusMinutes(duration).format(FORMATTER);
         } else {
             return "null";
         }

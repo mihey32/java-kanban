@@ -16,7 +16,7 @@ class TaskTest {
 
     private Task task;
     private LocalDateTime startTime;
-    private Duration duration;
+    private long duration;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm");
 
     @Test
@@ -35,7 +35,7 @@ class TaskTest {
 
     @BeforeEach
     void beforeEach() {
-        duration = Duration.ofMinutes(60);
+        duration = 60;
         startTime = LocalDateTime.of(2024, Month.SEPTEMBER, 1, 12, 0, 0);
         task = new Task(1, "Test title", "Test description", Status.NEW, startTime, duration);
     }

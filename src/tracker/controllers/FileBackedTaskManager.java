@@ -3,13 +3,16 @@ package tracker.controllers;
 import tracker.enums.Status;
 import tracker.enums.TaskType;
 import tracker.exception.ManagerSaveException;
-import tracker.model.*;
+import tracker.model.Epic;
+import tracker.model.Subtask;
+import tracker.model.Task;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import static java.lang.Integer.parseInt;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
@@ -71,14 +74,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     private static Task fromString(String value) {
         // "id,type,name,status,description,startTime,endTime,duration,epic_id";
         String[] split = value.split(",");
-        int taskId = Integer.parseInt(split[0]);
+        int taskId = parseInt(split[0]);
         TaskType taskType = TaskType.valueOf(split[1]);
         String taskTitle = split[2];
         Status taskStatus = Status.valueOf(split[3]);
         String taskDescription = split[4];
         LocalDateTime startTime;
         LocalDateTime endTime;
-        Duration duration = Duration.ofMinutes(Integer.parseInt(split[7]));
+        long duration = parseInt(split[7]);
 
         if (split[5].equals("null")) {
             startTime = null;
@@ -94,7 +97,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 return new Task(taskId, taskTitle, taskDescription, taskStatus, startTime, duration);
             }
             case SUBTASK -> {
-                int idEpicForSubtask = Integer.parseInt(split[8]);
+                int idEpicForSubtask = parseInt(split[8]);
 
                 return new Subtask(taskId, taskTitle, taskDescription, taskStatus, startTime, duration, idEpicForSubtask);
             }

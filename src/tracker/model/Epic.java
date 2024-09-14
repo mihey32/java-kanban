@@ -21,7 +21,7 @@ public class Epic extends Task {
     }
 
     public Epic(Integer id, String title, String description, Status status, LocalDateTime startTime,
-                Duration duration, LocalDateTime endTime) {
+                long duration, LocalDateTime endTime) {
         super(id, title, description, status, startTime, duration);
         this.endTime = endTime;
     }
@@ -48,7 +48,7 @@ public class Epic extends Task {
                 ", Количество подзадач: " + idSubTasks.size() +
                 ", Статус эпика = " + status +
                 ", Cтарт эпика = " + startTime +
-                ", Продолжительность эпика = " + duration.toHours() + " ч. " + duration.toMinutesPart() + " мин. " +
+                ", Продолжительность эпика = " + duration + " мин. " +
                 ", Окончание эпика = " + endTime +
                 '}';
     }

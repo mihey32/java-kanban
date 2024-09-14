@@ -3,6 +3,10 @@ package tracker.controllers;
 public class Managers {
 
 
+    public static TaskManager getTaskManager() {
+        return new InMemoryTaskManager();
+    }
+
     public static TaskManager getDefault() {
         return new InMemoryTaskManager();
     }
