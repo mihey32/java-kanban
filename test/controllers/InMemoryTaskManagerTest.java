@@ -8,8 +8,6 @@ import tracker.model.Epic;
 import tracker.enums.Status;
 import tracker.model.Subtask;
 import tracker.model.Task;
-
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
@@ -33,11 +31,9 @@ class InMemoryTaskManagerTest {
 
         LocalDateTime time1 = LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0, 0);
         LocalDateTime time2 = LocalDateTime.of(2020, Month.JANUARY, 2, 0, 0, 0);
-        Duration duration1 = Duration.ofHours(1);
-        Duration duration2 = Duration.ofHours(2);
 
-        task1 = new Task("Задача 1", "Описание1", time1, duration1);
-        task2 = new Task("Задача 1", "Описание1", time2, duration2);
+        task1 = new Task("Задача 1", "Описание1", time1, 60);
+        task2 = new Task("Задача 1", "Описание1", time2, 60);
 
         manager.createTask(task1);
         manager.createTask(task2);
@@ -49,10 +45,9 @@ class InMemoryTaskManagerTest {
 
         LocalDateTime time3 = LocalDateTime.of(2020, Month.JANUARY, 3, 0, 0, 0);
         LocalDateTime time4 = LocalDateTime.of(2020, Month.JANUARY, 4, 0, 0, 0);
-        Duration duration3 = Duration.ofHours(2);
-        Duration duration4 = Duration.ofHours(1);
 
-        subtask1 = new Subtask("Подзадача 1", "Описание1", epic1.getId(), time3, duration3);
+
+        subtask1 = new Subtask("Подзадача 1", "Описание1", epic1.getId(), time3, 70);
         subtask2 = new Subtask("Подзадача 2", "Описание2", epic1.getId());
 
         manager.createSubTask(subtask1);

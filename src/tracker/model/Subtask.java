@@ -2,8 +2,6 @@ package tracker.model;
 
 import tracker.enums.Status;
 import tracker.enums.TaskType;
-
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -15,7 +13,7 @@ public class Subtask extends Task {
         this.idEpic = idEpic;
     }
 
-    public Subtask(String title, String description, Integer idEpic, LocalDateTime startTime, Duration duration) {
+    public Subtask(String title, String description, Integer idEpic, LocalDateTime startTime, long duration) {
         super(title, description, startTime, duration);
         this.idEpic = idEpic;
     }
@@ -26,12 +24,12 @@ public class Subtask extends Task {
     }
 
     public Subtask(Integer id, String title, String description, Status status, LocalDateTime startTime,
-                   Duration duration, Integer idEpic) {
+                   long duration, Integer idEpic) {
         super(id, title, description, status, startTime, duration);
         this.idEpic = idEpic;
     }
 
-    public Subtask(String title, String description, LocalDateTime startTime, Duration duration, Integer idEpic) {
+    public Subtask(String title, String description, LocalDateTime startTime, long duration, Integer idEpic) {
         super(title, description, startTime, duration);
         this.idEpic = idEpic;
     }
@@ -44,7 +42,7 @@ public class Subtask extends Task {
                 ", Task ID = " + id +
                 ", Статус подзадачи = " + status +
                 ", Старт подзадачи = " + startTime +
-                ", Продолжительность подзадачи = " + duration.toHours() + " ч. " + duration.toMinutesPart() + " мин. " +
+                ", Продолжительность подзадачи = " + duration + " мин. " +
                 '}';
     }
 
