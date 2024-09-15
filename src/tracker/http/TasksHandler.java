@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 public class TasksHandler extends BaseHttpHandler {
     private final TaskManager taskManager;
     private final Gson gson;
+
     public TasksHandler(TaskManager taskManager) {
         this.taskManager = taskManager;
         this.gson = Managers.getGson();
