@@ -1,29 +1,23 @@
 package tracker.http;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.sun.net.httpserver.HttpExchange;
+import tracker.controllers.Managers;
 import tracker.controllers.TaskManager;
 import tracker.exception.ManagerSaveException;
-import tracker.http.adapter.LocalDateTimeAdapter;
 import tracker.model.Task;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 
 public class TasksHandler extends BaseHttpHandler {
     private final TaskManager taskManager;
-    private final Gson gson = new GsonBuilder()
-            .setPrettyPrinting()
-            .serializeNulls()
-            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
-            .create();
-
+    private final Gson gson;
     public TasksHandler(TaskManager taskManager) {
         this.taskManager = taskManager;
+        this.gson = Managers.getGson();
     }
 
     @Override
@@ -36,7 +30,6 @@ public class TasksHandler extends BaseHttpHandler {
 
         String path = exchange.getRequestURI().getPath();
         String method = exchange.getRequestMethod();
-        System.out.println("Получен запрос: " + method + " " + path);
 
         if ("GET".equals(method) && "/tasks".equals(path)) {
             handleGetTasks(exchange, taskManager);
@@ -47,19 +40,15 @@ public class TasksHandler extends BaseHttpHandler {
         } else if ("DELETE".equals(method) && path.startsWith("/tasks/")) {
             handleDeleteTask(exchange, taskManager);
         } else {
-            System.out.println("Неизвестный тип запроса");
             sendNotFound(exchange);
         }
     }
 
     private void handleGetTasks(HttpExchange exchange, TaskManager taskManager) throws IOException {
-        System.out.println("Обработка GET-запроса для всех задач");
         String response = gson.toJson(taskManager.getTasks());
         if (response != null && !response.isEmpty()) {
-            System.out.println("Ответ сервера: " + response);
             sendText(exchange, response);
         } else {
-            System.out.println("Ответ null или пустой");
             sendNotFound(exchange);
         }
     }
@@ -101,7 +90,6 @@ public class TasksHandler extends BaseHttpHandler {
         try {
             task = gson.fromJson(requestBody, Task.class);
         } catch (JsonSyntaxException e) {
-            System.out.println("Неверный формат");
             sendNotFound(exchange);
             return;
         }
@@ -114,16 +102,12 @@ public class TasksHandler extends BaseHttpHandler {
         Integer taskId = task.getId();
         if (taskId != null) {
             try {
-                System.out.println("Обновить задачу: " + taskId);
                 taskManager.updateTask(task);
-                System.out.println("Задача успешно обновлена");
             } catch (ManagerSaveException e) {
-                System.out.println(e.getMessage());
                 sendHasInteractions(exchange);
             }
         } else {
             taskManager.createTask(task);
-            System.out.println("Создана новая задача с ID " + task.getId());
         }
 
         String response = gson.toJson(task);

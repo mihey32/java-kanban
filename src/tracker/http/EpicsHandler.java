@@ -1,28 +1,25 @@
 package tracker.http;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.sun.net.httpserver.HttpExchange;
+import tracker.controllers.Managers;
 import tracker.controllers.TaskManager;
-import tracker.http.adapter.LocalDateTimeAdapter;
 import tracker.model.Epic;
 import tracker.model.Subtask;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class EpicsHandler extends BaseHttpHandler {
     private final TaskManager taskManager;
-    private final Gson gson = new GsonBuilder()
-            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
-            .create();
+    private final Gson gson;
 
     public EpicsHandler(TaskManager taskManager) {
         this.taskManager = taskManager;
+        this.gson = Managers.getGson();
     }
 
     @Override
@@ -35,7 +32,6 @@ public class EpicsHandler extends BaseHttpHandler {
 
         String path = exchange.getRequestURI().getPath();
         String method = exchange.getRequestMethod();
-        System.out.println("Получен запрос: " + method + " " + path);
 
         if ("GET".equals(method) && "/epics".equals(path)) {
             handleGetEpics(exchange, taskManager);
@@ -48,19 +44,15 @@ public class EpicsHandler extends BaseHttpHandler {
         } else if ("DELETE".equals(method) && path.startsWith("/epics/")) {
             handleDeleteEpic(exchange, taskManager);
         } else {
-            System.out.println("Неизвестный тип запроса");
             sendNotFound(exchange);
         }
     }
 
     private void handleGetEpics(HttpExchange exchange, TaskManager taskManager) throws IOException {
-        System.out.println("Обработка GET-запроса для всех эпиков");
         String response = gson.toJson(taskManager.getEpics());
         if (response != null && !response.isEmpty()) {
-            System.out.println("Ответ сервера: " + response);
             sendText(exchange, response);
         } else {
-            System.out.println("Ответ null или пустой");
             sendNotFound(exchange);
         }
     }
@@ -125,7 +117,6 @@ public class EpicsHandler extends BaseHttpHandler {
         try {
             epic = gson.fromJson(requestBody, Epic.class);
         } catch (JsonSyntaxException e) {
-            System.out.println("Неверный формат");
             sendNotFound(exchange);
             return;
         }

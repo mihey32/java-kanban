@@ -10,7 +10,6 @@ public abstract class BaseHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        System.out.println("Запрос на обработку: " + exchange.getRequestMethod() + " " + exchange.getRequestURI());
         String response = "BaseHttpHandler response";
         exchange.sendResponseHeaders(200, response.getBytes().length);
         OutputStream os = exchange.getResponseBody();

@@ -1,21 +1,18 @@
 package tracker.http;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
+import tracker.controllers.Managers;
 import tracker.controllers.TaskManager;
-import tracker.http.adapter.LocalDateTimeAdapter;
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 public class PrioritizedHandler extends BaseHttpHandler {
     private final TaskManager taskManager;
-    private final Gson gson = new GsonBuilder()
-            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
-            .create();
+    private final Gson gson;
 
     public PrioritizedHandler(TaskManager taskManager) {
         this.taskManager = taskManager;
+        this.gson = Managers.getGson();
     }
 
     @Override
@@ -28,12 +25,10 @@ public class PrioritizedHandler extends BaseHttpHandler {
 
         String path = exchange.getRequestURI().getPath();
         String method = exchange.getRequestMethod();
-        System.out.println("Получен запрос: " + method + " " + path);
 
         if ("GET".equals(method) && "/prioritized".equals(path)) {
             handleGetPrioritized(exchange, taskManager);
         } else {
-            System.out.println("Неизвестный тип запроса");
             sendNotFound(exchange);
         }
     }
@@ -41,10 +36,8 @@ public class PrioritizedHandler extends BaseHttpHandler {
     private void handleGetPrioritized(HttpExchange exchange, TaskManager taskManager) throws IOException {
         String response = gson.toJson(taskManager.getPrioritizedTasks());
         if (response != null && !response.isEmpty()) {
-            System.out.println("Ответ сервера: " + response);
             sendText(exchange, response);
         } else {
-            System.out.println("Ответ null или пустой");
             sendNotFound(exchange);
         }
     }

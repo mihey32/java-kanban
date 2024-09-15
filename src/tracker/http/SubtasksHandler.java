@@ -1,28 +1,25 @@
 package tracker.http;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.sun.net.httpserver.HttpExchange;
+import tracker.controllers.Managers;
 import tracker.controllers.TaskManager;
 import tracker.exception.ManagerSaveException;
-import tracker.http.adapter.LocalDateTimeAdapter;
 import tracker.model.Subtask;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 
 
 public class SubtasksHandler extends BaseHttpHandler {
     private final TaskManager taskManager;
-    private final Gson gson = new GsonBuilder()
-            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
-            .create();
+    private final Gson gson;
 
     public SubtasksHandler(TaskManager taskManager) {
         this.taskManager = taskManager;
+        this.gson = Managers.getGson();
     }
 
     @Override
@@ -35,7 +32,6 @@ public class SubtasksHandler extends BaseHttpHandler {
 
         String path = exchange.getRequestURI().getPath();
         String method = exchange.getRequestMethod();
-        System.out.println("Получен запрос: " + method + " " + path);
 
         if ("GET".equals(method) && "/subtasks".equals(path)) {
             handleGetSubtasks(exchange, taskManager);
@@ -46,19 +42,15 @@ public class SubtasksHandler extends BaseHttpHandler {
         } else if ("DELETE".equals(method) && path.startsWith("/subtasks/")) {
             handleDeleteSubtask(exchange, taskManager);
         } else {
-            System.out.println("Неизвестный тип запроса");
             sendNotFound(exchange);
         }
     }
 
     private void handleGetSubtasks(HttpExchange exchange, TaskManager taskManager) throws IOException {
-        System.out.println("Обработка GET-запроса для всех подзадач");
         String response = gson.toJson(taskManager.getSubtasks());
         if (response != null && !response.isEmpty()) {
-            System.out.println("Ответ сервера: " + response);
             sendText(exchange, response);
         } else {
-            System.out.println("Ответ null или пустой");
             sendNotFound(exchange);
         }
     }
@@ -100,7 +92,6 @@ public class SubtasksHandler extends BaseHttpHandler {
         try {
             subTask = gson.fromJson(requestBody, Subtask.class);
         } catch (JsonSyntaxException e) {
-            System.out.println("Неверный формат");
             sendNotFound(exchange);
             return;
         }
@@ -113,16 +104,12 @@ public class SubtasksHandler extends BaseHttpHandler {
         Integer subTaskId = subTask.getId();
         if (subTaskId != null) {
             try {
-                System.out.println("Обновить подзадачу: " + subTaskId);
                 taskManager.updateSubTask(subTask);
-                System.out.println("Подазача успешно обновлена");
             } catch (ManagerSaveException e) {
-                System.out.println(e.getMessage());
                 sendHasInteractions(exchange);
             }
         } else {
             taskManager.createSubTask(subTask);
-            System.out.println("Создана новая подзадача с ID " + subTask.getId());
         }
 
         String response = gson.toJson(subTask);
@@ -130,8 +117,6 @@ public class SubtasksHandler extends BaseHttpHandler {
     }
 
     private void handleDeleteSubtask(HttpExchange exchange, TaskManager taskManager) throws IOException {
-        // Логика для обработки запроса на удаление подтзадачи по ID с использованием TaskManager
-        System.out.println("delete");
         String path = exchange.getRequestURI().getPath();
         String[] pathParts = path.split("/");
         if (pathParts.length != 3) {

@@ -1,10 +1,7 @@
 package tracker.http;
 
-import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpServer;
 import tracker.controllers.TaskManager;
-
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
@@ -13,7 +10,6 @@ public class HttpTaskServer {
 
     private final HttpServer httpServer;
     private final TaskManager taskManager;
-    private final Gson gson = new Gson();
 
     public HttpTaskServer(TaskManager taskManager) throws IOException {
         this.taskManager = taskManager;
